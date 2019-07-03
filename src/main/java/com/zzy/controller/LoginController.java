@@ -2,13 +2,14 @@ package com.zzy.controller;
 
 import com.zzy.common.result.Result;
 import com.zzy.common.result.ResultFactory;
+import com.zzy.mapper.UserMapper;
 import com.zzy.vo.LoginInfoVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Objects;
 
 /**
  * @program: remindBootProject
@@ -19,6 +20,8 @@ import java.util.Objects;
 @Controller
 public class LoginController {
 
+    @Autowired
+    private UserMapper userMapper;
     /**
      * 登录控制器，前后端分离用的不同协议和端口，所以需要加入@CrossOrigin支持跨域。
      * 给LoginInfoVo对象加入@Valid注解，并在参数中加入BindingResult来获取错误信息。
@@ -32,10 +35,15 @@ public class LoginController {
             String message = String.format("登陆失败，详细信息[%s]。", bindingResult.getFieldError().getDefaultMessage());
             return ResultFactory.buildFailResult(message);
         }
-        if (!Objects.equals("123", loginInfoVo.getUsername()) || !Objects.equals("123", loginInfoVo.getPassword())) {
-            String message = String.format("登陆失败，详细信息[用户名、密码信息不正确]。");
+        String password=userMapper.getPasswordByUserId(123L);
+        if(!password.equals(loginInfoVo.getPassword())){
+            String message = String.format("密码错了啊啊啊");
             return ResultFactory.buildFailResult(message);
         }
+        /*if (!Objects.equals("123", loginInfoVo.getUsername()) || !Objects.equals("123", loginInfoVo.getPassword())) {
+            String message = String.format("登陆失败，详细信息[用户名、密码信息不正确]。");
+            return ResultFactory.buildFailResult(message);
+        }*/
         return ResultFactory.buildSuccessResult("登陆成功。");
     }
 

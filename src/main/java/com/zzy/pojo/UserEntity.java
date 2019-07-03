@@ -8,13 +8,14 @@ public class UserEntity implements  Serializable{
     private static final long serialVersionUID = 1L;
     private String userName;
     private Long userId;
+    private String password;
 
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "userName='" + userName + '\'' +
-                ", userId=" + userId +
-                '}';
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUserName() {
@@ -31,5 +32,14 @@ public class UserEntity implements  Serializable{
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "userName='" + userName + '\'' +
+                ", userId=" + userId +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
